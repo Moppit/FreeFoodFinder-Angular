@@ -1,7 +1,7 @@
 export enum Filters {
   GLUTEN_FREE = "Gluten Free",
   LACTOSE_FREE = "Lactose Free",
-  VEGAN = "VEGAN",
+  VEGAN = "Vegan",
   KOSHER = "Kosher",
   VEGETARIAN = "Vegetarian",
   NO_EGGS = "No Eggs",
