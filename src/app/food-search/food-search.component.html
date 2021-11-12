@@ -1,0 +1,28 @@
+<form [formGroup]="foodSearchForm" (ngSubmit)="search()">
+  <mat-form-field id="foodSearch" appearance="standard">
+    <mat-label id="food-search-label">What type of food are you looking for?</mat-label>
+    <mat-icon id="food-search-icon">search</mat-icon>
+    <input matInput #input placeholder="Ex. pizza" formControlName="search">
+  </mat-form-field>
+  <mat-icon id="location-search-icon">location_on</mat-icon>
+  <mat-form-field id="location-search" appearance="standard">
+    <mat-label>Location</mat-label>
+    <input type="text"
+           placeholder="Ex. UMC"
+           aria-label="Location"
+           matInput
+           formControlName="location"
+           [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of locations" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <button id="filter-button" mat-raised-button (click)="openFilterDialog()">
+    <mat-icon id="filter-icon">filter_list</mat-icon>
+    Filters
+  </button>
+  <button mat-raised-button color="accent" id="search-button">Find Free Food</button>
+</form>
+

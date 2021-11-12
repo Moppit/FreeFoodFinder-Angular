@@ -1,0 +1,16 @@
+<div mat-dialog-content>
+  <p>Chose from the available food filters</p>
+  <form [formGroup]="filtersForm">
+    <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-tile *ngFor="let filterKey of filterKeys; let i = index;">
+        <div class="filter-entry">
+          <mat-checkbox [formControlName]="filterKey">{{filters[i]}}</mat-checkbox>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>
