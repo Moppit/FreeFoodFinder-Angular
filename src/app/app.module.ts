@@ -19,6 +19,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {FoodSearchComponent} from "./food-search/food-search.component";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatDialogModule,
     MatGridListModule,
     MatCheckboxModule,
-
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -2,6 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FilterDialogComponent} from "../filter-dialog/filter-dialog.component";
+import {cuLocations, LocationInfo} from "../free-food-info";
+import {map, Observable, startWith} from "rxjs";
 
 @Component({
   selector: 'app-food-search',
@@ -10,10 +12,8 @@ import {FilterDialogComponent} from "../filter-dialog/filter-dialog.component";
 })
 export class FoodSearchComponent implements OnInit {
 
-  locations: string[] = [
-    'UMC',
-    'Engineering Lobby'
-  ];
+  public locations: string[] = this.getLocationNames();
+  public filteredLocations: Observable<string[]>;
 
   public foodSearchForm: FormGroup = this.formBuilder.group({
     search: [''],
@@ -27,6 +27,7 @@ export class FoodSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.filteredLocations = this.foodSearchForm.get('location')!.valueChanges.pipe(startWith(''), map(value => this.filter(value)));
   }
 
   public search() {
@@ -44,6 +45,19 @@ export class FoodSearchComponent implements OnInit {
       console.log(this.filters);
     });
 
+  }
+
+  private getLocationNames(): string[] {
+    const locationNames: string[] = [];
+    cuLocations.forEach((loc: LocationInfo) => {
+      locationNames.push(loc.name);
+    });
+    return locationNames;
+  }
+
+  private filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.locations.filter(option => option.toLowerCase().includes(filterValue));
   }
 }
 

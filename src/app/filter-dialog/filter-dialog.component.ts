@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FilterDialogData} from "../food-search/food-search.component";
-import {Filters} from "../models"
+import {Filters} from "../free-food-info"
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 export interface KeyVal {
