@@ -9,6 +9,22 @@ export const cuLocations: EventLocation[] = [
     "longitude":30.20,
     "isOutdoor":false,
     "address": "Test address"
+  },
+  {
+    "locationID":2,
+    "locationName":"Farrand Field",
+    "latitude":20.50,
+    "longitude":30.20,
+    "isOutdoor":true,
+    "address": "Test address"
+  },
+  {
+    "locationID":3,
+    "locationName":"UMC",
+    "latitude":20.50,
+    "longitude":30.20,
+    "isOutdoor":false,
+    "address": "Test address"
   }
 ];
 
