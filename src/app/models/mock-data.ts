@@ -1,5 +1,16 @@
-import {FoodEvent, GetAllEventsRes} from "./databse-service.models";
+import {EventLocation, FoodEvent, GetAllEventsRes, GetLocationsRes} from "./databse-service.models";
 import {Utils} from "../utils";
+
+export const cuLocations: EventLocation[] = [
+  {
+    "locationID":1,
+    "locationName":"Engineering Center",
+    "latitude":20.50,
+    "longitude":30.20,
+    "isOutdoor":false,
+    "address": "Test address"
+  }
+];
 
 export const events: FoodEvent[] =  [{
   "eventID":1,
@@ -18,13 +29,7 @@ export const events: FoodEvent[] =  [{
     "noEgg":false,
     "noSoy":false
   },
-  "locationID": {
-    "locationID":1,
-    "locationName":"Engineering Center",
-    "latitude":20.50,
-    "longitude":30.20,
-    "inOrOutDoor":false
-  }
+  "locationID": cuLocations[0]
 },
 ]
 
@@ -34,3 +39,8 @@ export const getAllEventsResponses: GetAllEventsRes[] = [
   }
 ];
 
+export const getLocationsResponses: GetLocationsRes[] = [
+  {
+    locations: cuLocations,
+  }
+];

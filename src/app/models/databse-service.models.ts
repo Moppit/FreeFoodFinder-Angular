@@ -15,7 +15,8 @@ export interface EventLocation {
   locationName: string;
   latitude: number;
   longitude: number;
-  inOrOutDoor: boolean;
+  isOutdoor: boolean;
+  address?: string;
 }
 
 export interface FoodEvent {
@@ -30,4 +31,8 @@ export interface FoodEvent {
 
 export interface GetAllEventsRes {
   events: FoodEvent[]
+}
+
+export interface GetLocationsRes {
+  locations: EventLocation[];
 }

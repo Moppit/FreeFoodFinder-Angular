@@ -40,7 +40,7 @@ export class FoodMapComponent implements OnInit {
       console.log(this.foodEvents)
     }, error => {
       // TODO: better error handling
-      alert('')
+      console.log(error)
     });
   }
 

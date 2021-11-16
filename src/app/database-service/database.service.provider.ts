@@ -1,12 +1,12 @@
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {DatabseImplService} from "./databse.impl.service";
+import {DatabaseImplService} from "./databaseImplService";
 import {DatabaseMockService} from "./database.mock.service";
 import {DatabaseService} from "./database.service";
 
 const databaseServiceFactory = (http: HttpClient) => {
   if (environment.useRealDatabaseService) {
-    return new DatabseImplService(http);
+    return new DatabaseImplService(http);
   } else {
     return new DatabaseMockService();
   }
