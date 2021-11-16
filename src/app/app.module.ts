@@ -25,6 +25,7 @@ import { AddFoodDialogComponent } from './add-food-dialog/add-food-dialog.compon
 import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 
 @NgModule({
   declarations: [
@@ -36,27 +37,28 @@ import {MatNativeDateModule} from "@angular/material/core";
     AddFoodButtonComponent,
     AddFoodDialogComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        GoogleMapsModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatButtonModule,
-        MatAutocompleteModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-        MatGridListModule,
-        MatCheckboxModule,
-        HttpClientModule,
-        MatSelectModule,
-      MatNativeDateModule,
-        MatDatepickerModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    GoogleMapsModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+    MatAutocompleteModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatGridListModule,
+    MatCheckboxModule,
+    HttpClientModule,
+    MatSelectModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    NgxMaterialTimepickerModule,
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
