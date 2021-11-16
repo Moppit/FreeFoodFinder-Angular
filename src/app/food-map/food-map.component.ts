@@ -26,6 +26,8 @@ export class FoodMapComponent implements OnInit {
     }
   }
 
+  public markerOptions: google.maps.MarkerOptions[] = [];
+
   public foodEvents: FoodEvent[];
 
   constructor(private databaseService: DatabaseService
@@ -37,7 +39,16 @@ export class FoodMapComponent implements OnInit {
     void {
     this.databaseService.getAllEvents().subscribe((res: GetAllEventsRes) => {
       this.foodEvents = res.events;
-      console.log(this.foodEvents)
+      res.events.forEach((event: FoodEvent) => {
+        this.markerOptions.push({
+          position: {
+            lat: event.locationID.latitude,
+            lng: event.locationID.longitude
+          } as google.maps.LatLngLiteral,
+          title: event.foodName,
+          clickable: true,
+        } as google.maps.MarkerOptions);
+      });
     }, error => {
       // TODO: better error handling
       console.log(error)

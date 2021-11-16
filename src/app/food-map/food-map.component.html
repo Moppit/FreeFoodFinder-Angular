@@ -2,7 +2,10 @@
   width="100%"
   height="100%"
   [options]="mapOptions"
-></google-map>
+>
+  <map-marker *ngFor="let markerOption of markerOptions" [options]="markerOption"></map-marker>
+
+</google-map>
 
 <!--Uncomment the following line and comment the real one to save API calls -->
 <!--<app-fake-food-map></app-fake-food-map>-->
