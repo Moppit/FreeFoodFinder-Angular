@@ -1,9 +1,38 @@
-<!--<google-map-->
-<!--  width="100%"-->
-<!--  height="100%"-->
-<!--  [options]="mapOptions"-->
-<!--&gt;</google-map>-->
+<google-map
+  width="100%"
+  height="100%"
+  [options]="mapOptions"
+>
+  <map-marker #marker
+              *ngFor="let markerOption of markerOptions; let i = index"
+              [options]="markerOption"
+              (mapClick)="openInfoWindow(i)">
+    <map-info-window>
+      <b><mat-icon class="marker-icon">fastfood</mat-icon>{{foodEvents[i].foodName}}</b>
+      <p>{{foodEvents[i].foodDescription}}</p>
+      <p><i>Available Until {{formatDate(foodEvents[i].availableUntil)}}</i></p>
+      <hr>
+      <b><mat-icon class="marker-icon">location_on</mat-icon>Location</b>
+      <p>{{foodEvents[i].locationID.locationName}}
+        <span *ngIf="foodEvents[i].roomNumber">| {{foodEvents[i].roomNumber}}</span>
+      </p>
+      <i *ngIf="foodEvents[i].locationID.address">{{foodEvents[i].locationID.address}}</i>
+      <hr>
+      <p>
+        <b><mat-icon class="marker-icon">health_and_safety</mat-icon>Dietary Info: </b>
+        <span *ngIf="foodEvents[i].restrictionID.glutenFree">Gluten Free | </span>
+        <span *ngIf="foodEvents[i].restrictionID.vegan">Vegan | </span>
+        <span *ngIf="foodEvents[i].restrictionID.vegetarian">Vegetarian | </span>
+        <span *ngIf="foodEvents[i].restrictionID.noPeanut">Peanut Free | </span>
+        <span *ngIf="foodEvents[i].restrictionID.lactoseFree">Dairy Free | </span>
+        <span *ngIf="foodEvents[i].restrictionID.kosher">Kosher | </span>
+        <span *ngIf="foodEvents[i].restrictionID.noEgg">Soy Free | </span>
+        <span *ngIf="foodEvents[i].restrictionID.noEgg">Egg Free | </span>
+      </p>
+    </map-info-window>
+  </map-marker>
+</google-map>
 
 <!--Uncomment the following line and comment the real one to save API calls -->
-<app-fake-food-map></app-fake-food-map>
+<!--<app-fake-food-map></app-fake-food-map>-->
 

@@ -1,11 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {FilterDialogData} from "../food-search/food-search.component";
 import {DatabaseService} from "../database-service/database.service";
-import {EventLocation, GetLocationsRes} from "../models/databse-service.models";
+import {CreateFoodEventReq, EventLocation, GetLocationsRes} from "../models/databse-service.models";
 import {databaseServiceProvider} from "../database-service/database.service.provider";
 import {ValueConverter} from "@angular/compiler/src/render3/view/template";
+import {Filters} from "../free-food-info";
+import {KeyVal} from "../filter-dialog/filter-dialog.component";
 
 @Component({
   selector: 'app-add-food-dialog',
@@ -16,19 +18,33 @@ import {ValueConverter} from "@angular/compiler/src/render3/view/template";
 export class AddFoodDialogComponent implements OnInit {
 
   public locations: EventLocation[];
-
+  public filterKeys: string[] = [];
+  public filters: string[] = [];
   public locationOutdoors = true;
 
-  public addFoodForm = this.formBuilder.group({
-    foodName: ['', Validators.required],
-    foodDesc: ['', Validators.required],
-    locationSelect: ['', Validators.required],
-    room: ['']
-  });
+  public addFoodForm: FormGroup;
 
   constructor(public dialogRef: MatDialogRef<AddFoodDialogComponent>,
               private formBuilder: FormBuilder,
               private dbService: DatabaseService) {
+    let controlConfig: KeyVal = {
+      foodName: ['', Validators.required],
+      foodDesc: ['', Validators.required],
+      locationSelect: ['', Validators.required],
+      room: [''],
+      date: ['', Validators.required],
+      time: ['', Validators.required]
+    }
+
+    Object.keys(Filters).forEach((key: string) => {
+      this.filterKeys.push(key);
+      controlConfig[key] = [false];
+    })
+    Object.values(Filters).forEach((filterVal: string) => {
+      this.filters.push(filterVal);
+    });
+    console.log(this.filterKeys)
+    this.addFoodForm = this.formBuilder.group(controlConfig);
   }
 
   ngOnInit(): void {
@@ -55,6 +71,41 @@ export class AddFoodDialogComponent implements OnInit {
     return this.locations.filter((location: EventLocation) => {
       return location.locationID === id;
     })[0];
+  }
+
+  submitFoodEvent() {
+    if (this.addFoodForm.invalid){
+      console.log(this.addFoodForm.value)
+    }else{
+      const createFoodReq: CreateFoodEventReq = {
+        name: this.addFoodForm.get('foodName')!.value,
+        desc: this.addFoodForm.get('foodDesc')!.value,
+        availableUntil: this.parseDateTime(this.addFoodForm.get('date')!.value, this.addFoodForm.get('time')!.value),
+        locationId: this.addFoodForm.get('locationSelect')!.value,
+        room: this.addFoodForm.get('room')?.value,
+        glutenFree: this.addFoodForm.get('GLUTEN_FREE')!.value,
+        kosher: this.addFoodForm.get('KOSHER')!.value,
+        lactoseFree: this.addFoodForm.get('LACTOSE_FREE')!.value,
+        noEggs: this.addFoodForm.get('NO_EGGS')!.value,
+        noPeanuts: this.addFoodForm.get('NO_PEANUTS')!.value,
+        noSoy: this.addFoodForm.get('NO_SOY')!.value,
+        vegan: this.addFoodForm.get('VEGAN')!.value,
+        vegetarian: this.addFoodForm.get('VEGETARIAN')!.value
+      }
+      console.log(JSON.stringify(createFoodReq))
+    }
+  }
+
+  private parseDateTime(date: string, time: string) {
+    const d = new Date(date);
+    const offset = time.substring(time.indexOf(" ") + 1) == "PM" ? 12 : 0;
+    const hour = parseInt(time.substring(0, time.indexOf(" ")).split(":")[0]);
+    const minute = parseInt(time.substring(0, time.indexOf(" ")).split(":")[1]);
+    console.log(hour, offset)
+    d.setHours(hour + offset);
+    d.setMinutes(minute);
+    d.setSeconds(0 - d.getTimezoneOffset());
+    return d.toISOString();
   }
 
 }

@@ -36,3 +36,19 @@ export interface GetAllEventsRes {
 export interface GetLocationsRes {
   locations: EventLocation[];
 }
+
+export interface CreateFoodEventReq {
+  name: string;
+  desc: string;
+  locationId: number;
+  room: string;
+  availableUntil: string;
+  glutenFree: boolean;
+  lactoseFree: boolean;
+  vegan: boolean;
+  kosher: boolean;
+  vegetarian: boolean;
+  noEggs: boolean;
+  noPeanuts: boolean;
+  noSoy: boolean;
+}
