@@ -3,7 +3,29 @@
   height="100%"
   [options]="mapOptions"
 >
-  <map-marker *ngFor="let markerOption of markerOptions" [options]="markerOption"></map-marker>
+  <map-marker #marker
+              *ngFor="let markerOption of markerOptions; let i = index"
+              [options]="markerOption"
+              (mapClick)="openInfoWindow(i)">
+    <map-info-window>
+      <b>{{foodEvents[i].foodName}}</b>
+      <p>{{foodEvents[i].foodDescription}}</p>
+      <p>Available Until: {{foodEvents[i].availableUntil}}</p>
+      <p>Room Number: {{foodEvents[i].roomNumber}}</p>
+      <p>Is it glutenFree?: {{foodEvents[i].restrictionID.glutenFree}}</p>
+      <p>Is it vegan?: {{foodEvents[i].restrictionID.vegan}}</p>
+      <p>Is it vegetarian?: {{foodEvents[i].restrictionID.vegetarian}}</p>
+      <p>Is it noPeanut?: {{foodEvents[i].restrictionID.noPeanut}}</p>
+      <p>Is it lactoseFree?: {{foodEvents[i].restrictionID.lactoseFree}}</p>
+      <p>Is it kosher?: {{foodEvents[i].restrictionID.kosher}}</p>
+      <p>Is it noEgg?: {{foodEvents[i].restrictionID.noEgg}}</p>
+      <p>Is it noSoy?: {{foodEvents[i].restrictionID.noSoy}}</p>
+    </map-info-window>
+  </map-marker>
+
+
+
+
 
 </google-map>
 

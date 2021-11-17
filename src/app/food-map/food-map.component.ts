@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {DatabaseService} from "../database-service/database.service";
 import {databaseServiceProvider} from "../database-service/database.service.provider";
 import {FoodEvent, GetAllEventsRes} from "../models/databse-service.models";
+import {MapInfoWindow, MapMarker} from "@angular/google-maps";
 
 @Component({
   selector: 'app-food-map',
@@ -30,6 +31,8 @@ export class FoodMapComponent implements OnInit {
 
   public foodEvents: FoodEvent[];
 
+  public infoWindows: google.maps.InfoWindow[] = [];
+
   constructor(private databaseService: DatabaseService
   ) {
   }
@@ -48,11 +51,22 @@ export class FoodMapComponent implements OnInit {
           title: event.foodName,
           clickable: true,
         } as google.maps.MarkerOptions);
+          });
       });
-    }, error => {
-      // TODO: better error handling
-      console.log(error)
+    };
+
+  @ViewChildren(MapInfoWindow) infoWindowsView: QueryList<MapInfoWindow>;
+  @ViewChildren(MapMarker) markersView: QueryList<MapMarker>;
+
+  openInfoWindow(windowIndex: number) {
+    let curIdx = 0;
+    this.infoWindowsView.forEach((window: MapInfoWindow) => {
+      if (windowIndex === curIdx) {
+        window.open(this.markersView.get(windowIndex));
+        curIdx++;
+      } else {
+        curIdx++;
+      }
     });
   }
-
 }
