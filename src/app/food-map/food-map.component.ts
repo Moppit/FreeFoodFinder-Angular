@@ -40,6 +40,7 @@ export class FoodMapComponent implements OnInit {
   ngOnInit(): void {
     this.databaseService.getAllEvents().subscribe((res: GetAllEventsRes) => {
       this.foodEvents = res.events;
+      console.log(res.events);
       res.events.forEach((event: FoodEvent) => {
 
         const options: google.maps.MarkerOptions = {
