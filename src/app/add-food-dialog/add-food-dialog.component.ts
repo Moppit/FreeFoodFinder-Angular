@@ -92,7 +92,10 @@ export class AddFoodDialogComponent implements OnInit {
         vegan: this.addFoodForm.get('VEGAN')!.value,
         vegetarian: this.addFoodForm.get('VEGETARIAN')!.value
       }
-      console.log(JSON.stringify(createFoodReq))
+      console.log(JSON.stringify(createFoodReq));
+      this.dbService.createEvent(createFoodReq).subscribe(res => {
+        this.dialogRef.close();
+      });
     }
   }
 

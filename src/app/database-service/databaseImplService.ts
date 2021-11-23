@@ -1,5 +1,5 @@
 import {DatabaseService} from "./database.service";
-import {GetAllEventsRes, GetLocationsRes} from "../models/databse-service.models";
+import {CreateFoodEventReq, GetAllEventsRes, GetLocationsRes} from "../models/databse-service.models";
 import {map, Observable, of, switchMap} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
@@ -26,5 +26,9 @@ export class DatabaseImplService implements DatabaseService {
 
   public getAllEvents(): Observable<GetAllEventsRes> {
     return this.http.get<GetAllEventsRes>(`${environment.backendHost}/fff/events`);
+  }
+
+  public createEvent(req: CreateFoodEventReq): Observable<any> {
+    return this.http.post<any>(`${environment.backendHost}/fff/events`, JSON.stringify(req));
   }
 }
