@@ -29,7 +29,7 @@ export interface FoodEvent {
   locationID: EventLocation;
 }
 
-export interface GetAllEventsRes {
+export interface GetEventsRes {
   events: FoodEvent[]
 }
 
@@ -51,4 +51,10 @@ export interface CreateFoodEventReq {
   noEggs: boolean;
   noPeanuts: boolean;
   noSoy: boolean;
+}
+
+export interface FilterReq {
+  searchTerm?: string;
+  locationID?: number;
+  filters?: string[];
 }

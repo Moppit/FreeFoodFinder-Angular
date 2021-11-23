@@ -1,11 +1,11 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FilterDialogComponent} from "../filter-dialog/filter-dialog.component";
 import {map, Observable, startWith} from "rxjs";
 import {DatabaseService} from "../database-service/database.service";
 import {databaseServiceProvider} from "../database-service/database.service.provider";
-import {EventLocation, GetLocationsRes} from "../models/databse-service.models";
+import {EventLocation, FilterReq, FoodEvent, GetEventsRes, GetLocationsRes} from "../models/databse-service.models";
 
 @Component({
   selector: 'app-food-search',
@@ -15,7 +15,8 @@ import {EventLocation, GetLocationsRes} from "../models/databse-service.models";
 })
 export class FoodSearchComponent implements OnInit {
 
-  public locations: string[] = [];
+  public locationNames: string[] = [];
+  public locations: EventLocation[] = [];
   public filteredLocations: Observable<string[]>;
 
   public foodSearchForm: FormGroup = this.formBuilder.group({
@@ -25,6 +26,8 @@ export class FoodSearchComponent implements OnInit {
 
   public filters: string[] = [];
 
+  @Output() newFoodEventResults: EventEmitter<FoodEvent[]> = new EventEmitter<FoodEvent[]>();
+
   constructor(private formBuilder: FormBuilder,
               private dialog: MatDialog,
               private dbService: DatabaseService) {
@@ -33,14 +36,37 @@ export class FoodSearchComponent implements OnInit {
   ngOnInit(): void {
     this.dbService.getLocations().subscribe((res: GetLocationsRes) => {
       res.locations.forEach((loc: EventLocation) => {
-        this.locations.push(loc.locationName);
+        this.locationNames.push(loc.locationName);
       });
+      this.locations = res.locations;
       this.filteredLocations = this.foodSearchForm.get('location')!.valueChanges.pipe(startWith(''), map(value => this.filter(value)));
     });
   }
 
   public search() {
-    console.log(this.foodSearchForm.value)
+    const searchTerm: undefined | string = this.foodSearchForm.get('search')?.value.length == 0
+      ? undefined :
+      this.foodSearchForm.get('search')?.value;
+
+    let locationId: undefined | number = undefined;
+    const matchingLocations = this.locations.filter(
+      l => l.locationName == this.foodSearchForm.get('location')?.value
+    );
+    if(matchingLocations.length > 0){
+      locationId = matchingLocations[0].locationID;
+    }
+
+    const filterParam: undefined | string[] = this.filters.length === 0 ? undefined : this.filters;
+
+    const filterReq: FilterReq = {
+      searchTerm: searchTerm,
+      locationID: locationId,
+      filters: filterParam,
+    }
+
+    this.dbService.getFilteredEvents(filterReq).subscribe((res: GetEventsRes) => {
+      this.newFoodEventResults.emit(res.events);
+    })
   }
 
   public openFilterDialog() {
@@ -58,7 +84,7 @@ export class FoodSearchComponent implements OnInit {
 
   private filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.locations.filter(option => option.toLowerCase().includes(filterValue));
+    return this.locationNames.filter(option => option.toLowerCase().includes(filterValue));
   }
 }
 

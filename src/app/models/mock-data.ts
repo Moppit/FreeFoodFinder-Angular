@@ -1,4 +1,4 @@
-import {EventLocation, FoodEvent, GetAllEventsRes, GetLocationsRes} from "./databse-service.models";
+import {EventLocation, FoodEvent, GetEventsRes, GetLocationsRes} from "./databse-service.models";
 import {Utils} from "../utils";
 
 export const cuLocations: EventLocation[] = [
@@ -103,7 +103,7 @@ export const events: FoodEvent[] =  [{
   },
 ]
 
-export const getAllEventsResponses: GetAllEventsRes[] = [
+export const getAllEventsResponses: GetEventsRes[] = [
   {
     "events": events
   }
