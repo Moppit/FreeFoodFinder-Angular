@@ -40,8 +40,8 @@ export interface GetLocationsRes {
 export interface CreateFoodEventReq {
   name: string;
   desc: string;
-  locationId: number;
-  room: string;
+  locationID: number;
+  room: string; //TODO check to make sure valid request without room
   availableUntil: string;
   glutenFree: boolean;
   lactoseFree: boolean;

@@ -29,7 +29,9 @@ export class DatabaseImplService implements DatabaseService {
   }
 
   public createEvent(req: CreateFoodEventReq): Observable<any> {
-    return this.http.post<any>(`${environment.backendHost}/fff/events`, JSON.stringify(req));
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json');
+    return this.http.post<any>(`${environment.backendHost}/fff/events`, JSON.stringify(req), {headers: headers});
   }
 
   public getFilteredEvents(params: FilterReq): Observable<GetEventsRes> {

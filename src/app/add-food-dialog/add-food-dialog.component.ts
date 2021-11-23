@@ -81,8 +81,8 @@ export class AddFoodDialogComponent implements OnInit {
         name: this.addFoodForm.get('foodName')!.value,
         desc: this.addFoodForm.get('foodDesc')!.value,
         availableUntil: this.parseDateTime(this.addFoodForm.get('date')!.value, this.addFoodForm.get('time')!.value),
-        locationId: this.addFoodForm.get('locationSelect')!.value,
-        room: this.addFoodForm.get('room')?.value,
+        locationID: this.addFoodForm.get('locationSelect')!.value,
+        room: this.addFoodForm.get('room')?.value === null ? '': this.addFoodForm.get('room')?.value ,
         glutenFree: this.addFoodForm.get('GLUTEN_FREE')!.value,
         kosher: this.addFoodForm.get('KOSHER')!.value,
         lactoseFree: this.addFoodForm.get('LACTOSE_FREE')!.value,
@@ -92,7 +92,7 @@ export class AddFoodDialogComponent implements OnInit {
         vegan: this.addFoodForm.get('VEGAN')!.value,
         vegetarian: this.addFoodForm.get('VEGETARIAN')!.value
       }
-      console.log(JSON.stringify(createFoodReq));
+
       this.dbService.createEvent(createFoodReq).subscribe(res => {
         this.dialogRef.close();
       });
