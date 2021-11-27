@@ -101,13 +101,20 @@ export class AddFoodDialogComponent implements OnInit {
 
   private parseDateTime(date: string, time: string) {
     const d = new Date(date);
-    const offset = time.substring(time.indexOf(" ") + 1) == "PM" ? 12 : 0;
     const hour = parseInt(time.substring(0, time.indexOf(" ")).split(":")[0]);
     const minute = parseInt(time.substring(0, time.indexOf(" ")).split(":")[1]);
+    var offset = 0;
+    if( time.substring(time.indexOf(" ") + 1) == "PM" && hour != 12 ) {
+      offset += 12;
+    }
+    else if(time.substring(time.indexOf(" ") + 1) == "AM" && hour == 12) {
+      offset -= 12;
+    }
     console.log(hour, offset)
-    d.setHours(hour + offset);
+    d.setHours(hour - d.getTimezoneOffset()%60 + offset);
     d.setMinutes(minute);
-    d.setSeconds(0 - d.getTimezoneOffset());
+    d.setSeconds(0);
+    console.log(d.getHours(), d.getMinutes(), d.getSeconds);
     return d.toISOString();
   }
 
