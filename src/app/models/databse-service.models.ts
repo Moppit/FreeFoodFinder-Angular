@@ -29,10 +29,32 @@ export interface FoodEvent {
   locationID: EventLocation;
 }
 
-export interface GetAllEventsRes {
+export interface GetEventsRes {
   events: FoodEvent[]
 }
 
 export interface GetLocationsRes {
   locations: EventLocation[];
+}
+
+export interface CreateFoodEventReq {
+  name: string;
+  desc: string;
+  locationID: number;
+  room: string; //TODO check to make sure valid request without room
+  availableUntil: string;
+  glutenFree: boolean;
+  lactoseFree: boolean;
+  vegan: boolean;
+  kosher: boolean;
+  vegetarian: boolean;
+  noEggs: boolean;
+  noPeanuts: boolean;
+  noSoy: boolean;
+}
+
+export interface FilterReq {
+  searchTerm?: string;
+  locationID?: number;
+  filters?: string[];
 }

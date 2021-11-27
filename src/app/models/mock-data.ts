@@ -1,4 +1,4 @@
-import {EventLocation, FoodEvent, GetAllEventsRes, GetLocationsRes} from "./databse-service.models";
+import {EventLocation, FoodEvent, GetEventsRes, GetLocationsRes} from "./databse-service.models";
 import {Utils} from "../utils";
 
 export const cuLocations: EventLocation[] = [
@@ -23,6 +23,22 @@ export const cuLocations: EventLocation[] = [
     "locationName":"University Memorial Center (UMC)",
     "latitude":40.007092,
     "longitude":-105.272057,
+    "isOutdoor":false,
+    "address": "Test address"
+  },
+  {
+    "locationID":2,
+    "locationName":"Farrand Field",
+    "latitude":20.50,
+    "longitude":30.20,
+    "isOutdoor":true,
+    "address": "Test address"
+  },
+  {
+    "locationID":3,
+    "locationName":"UMC",
+    "latitude":20.50,
+    "longitude":30.20,
     "isOutdoor":false,
     "address": "Test address"
   }
@@ -87,7 +103,7 @@ export const events: FoodEvent[] =  [{
   },
 ]
 
-export const getAllEventsResponses: GetAllEventsRes[] = [
+export const getAllEventsResponses: GetEventsRes[] = [
   {
     "events": events
   }

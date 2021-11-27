@@ -1,7 +1,7 @@
 import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {DatabaseService} from "../database-service/database.service";
 import {databaseServiceProvider} from "../database-service/database.service.provider";
-import {FoodEvent, GetAllEventsRes} from "../models/databse-service.models";
+import {FoodEvent, GetEventsRes} from "../models/databse-service.models";
 import {MapInfoWindow, MapMarker} from "@angular/google-maps";
 
 @Component({
@@ -38,7 +38,7 @@ export class FoodMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.databaseService.getAllEvents().subscribe((res: GetAllEventsRes) => {
+    this.databaseService.getAllEvents().subscribe((res: GetEventsRes) => {
       this.foodEvents = res.events;
       console.log(res.events);
       res.events.forEach((event: FoodEvent) => {

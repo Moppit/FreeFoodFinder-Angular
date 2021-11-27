@@ -1,0 +1,61 @@
+<div mat-dialog-content *ngIf="locations">
+  <h3>Create a Free Food Event</h3>
+  <form [formGroup]="addFoodForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Food Name</mat-label>
+      <input matInput formControlName="foodName">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Food Description</mat-label>
+      <textarea matInput formControlName="foodDesc"></textarea>
+      <mat-hint>What food is available, and how much of it? e.g. 3 donuts</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Location</mat-label>
+      <mat-select formControlName="locationSelect">
+        <mat-option *ngFor="let location of locations"
+                    [value]="location.locationID">{{location.locationName}}</mat-option>
+      </mat-select>
+      <mat-hint>Where is this free food available?</mat-hint>
+    </mat-form-field>
+    <div *ngIf="!locationOutdoors" class="full-width-wrapper">
+      <mat-form-field appearance="fill">
+        <mat-label>What is the room number?</mat-label>
+        <input matInput formControlName="room">
+        <mat-hint>e.g. "Lobby" or "ASEN 104"</mat-hint>
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>Available Until</mat-label>
+      <input matInput [matDatepicker]="datePicker" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+      <mat-datepicker #datePicker></mat-datepicker>
+      <mat-hint>On what day will the food no longer be available?</mat-hint>
+    </mat-form-field>
+    <div class="mt-10">
+
+      <!--      TODO: Watch out for timezones    -->
+
+      <label for="timePicker">At what time will the food no longer be available?</label>
+      <input class="mt-10" id="timePicker" [ngxTimepicker]="picker" formControlName="time">
+      <ngx-material-timepicker #picker ></ngx-material-timepicker>
+    </div>
+
+    <h4>Dietary Restrictions</h4>
+    <mat-grid-list cols="2" rowHeight="5:1">
+      <mat-grid-tile *ngFor="let filterKey of filterKeys; let i = index;">
+        <div class="filter-entry">
+          <mat-checkbox [formControlName]="filterKey">{{filters[i]}}</mat-checkbox>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</div>
+<div *ngIf="!locations">
+  <h3>Error encountered when talking to the server.</h3>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="submitFoodEvent()">Ok</button>
+</div>
+

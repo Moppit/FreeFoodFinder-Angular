@@ -20,6 +20,12 @@ import {FoodSearchComponent} from "./food-search/food-search.component";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
+import { AddFoodButtonComponent } from './add-food-button/add-food-button.component';
+import { AddFoodDialogComponent } from './add-food-dialog/add-food-dialog.component';
+import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 
 @NgModule({
   declarations: [
@@ -27,7 +33,9 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
     FoodMapComponent,
     FakeFoodMapComponent,
     FoodSearchComponent,
-    FilterDialogComponent
+    FilterDialogComponent,
+    AddFoodButtonComponent,
+    AddFoodDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +54,10 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
     MatGridListModule,
     MatCheckboxModule,
     HttpClientModule,
+    MatSelectModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    NgxMaterialTimepickerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
