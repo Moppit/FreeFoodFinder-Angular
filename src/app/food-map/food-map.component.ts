@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
 import {DatabaseService} from "../database-service/database.service";
 import {databaseServiceProvider} from "../database-service/database.service.provider";
 import {FoodEvent, GetEventsRes} from "../models/databse-service.models";
@@ -11,19 +11,19 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./food-map.component.scss'],
   providers: [databaseServiceProvider]
 })
-export class FoodMapComponent implements OnInit {
+export class FoodMapComponent implements OnInit, OnChanges {
 
 
   public mapOptions: google.maps.MapOptions;
   public markerOptions: google.maps.MarkerOptions[] = [];
-  public foodEvents: FoodEvent[];
   public hasBeenReported: boolean[] = [];
   public infoWindows: google.maps.InfoWindow[] = [];
-
   @ViewChildren(MapInfoWindow) infoWindowsView: QueryList<MapInfoWindow>;
   @ViewChildren(MapMarker) markersView: QueryList<MapMarker>;
 
-  constructor(private databaseService: DatabaseService, private httpClient: HttpClient) {
+  @Input() foodEvents: FoodEvent[] = [];
+
+  constructor(private databaseService: DatabaseService) {
     this.mapOptions = {
       center: {
         lat: 40.007620, lng: -105.265649
@@ -40,6 +40,7 @@ export class FoodMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.markerOptions = [];
     this.databaseService.getAllEvents().subscribe((res: GetEventsRes) => {
       this.foodEvents = res.events;
       console.log(res.events);
@@ -59,6 +60,31 @@ export class FoodMapComponent implements OnInit {
       });
     });
   };
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("CHANGES")
+    console.log(changes)
+    this.markerOptions = [];
+    this.hasBeenReported = [];
+    this.foodEvents = changes['foodEvents']?.currentValue;
+    if (!this.foodEvents) {
+      this.foodEvents = [];
+    }
+    this.foodEvents.forEach((event: FoodEvent) => {
+
+      const options: google.maps.MarkerOptions = {
+        position: {
+          lat: event.locationID.latitude,
+          lng: event.locationID.longitude
+        },
+        title: event.foodName,
+        clickable: true,
+      };
+
+      this.markerOptions.push(options);
+      this.hasBeenReported.push(false);
+    });
+  }
 
   openInfoWindow(windowIndex: number) {
     this.infoWindowsView.get(windowIndex)!.open(this.markersView.get(windowIndex));

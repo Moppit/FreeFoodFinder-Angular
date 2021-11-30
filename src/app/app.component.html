@@ -1,13 +1,15 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row id="search-row">
     <span class="tool-spacer"></span>
-    <app-food-search></app-food-search>
+    <app-food-search
+    (newFoodEventResults)="receivedFoodEvents($event)"></app-food-search>
     <span class="tool-spacer"></span>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <div class="full-page">
-  <app-food-map></app-food-map>
+  <app-food-map
+  [foodEvents]="foodEvents"></app-food-map>
 </div>
 
 <app-add-food-button></app-add-food-button>
