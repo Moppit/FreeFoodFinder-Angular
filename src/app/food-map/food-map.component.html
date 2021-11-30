@@ -29,6 +29,15 @@
         <span *ngIf="foodEvents[i].restrictionID.noEgg">Soy Free | </span>
         <span *ngIf="foodEvents[i].restrictionID.noEgg">Egg Free | </span>
       </p>
+      <hr>
+      <p>This event has been reported unavailable by <strong> {{foodEvents[i].report_count}}</strong> times.</p>
+<!--      Creat button for report [1]-->
+      <div class="example-button-container">
+        <button mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon" (click)="increaseReportNew(foodEvents[i].eventID)">
+          <mat-icon>plus_one</mat-icon>
+        </button>
+      </div>
+      <b> Click the button above to report this event isn't available anymore! </b>
     </map-info-window>
   </map-marker>
 </google-map>
@@ -36,3 +45,7 @@
 <!--Uncomment the following line and comment the real one to save API calls -->
 <!--<app-fake-food-map></app-fake-food-map>-->
 
+/******** References/Citations ********
+[1] https://material.angular.io/components/button/overview
+should we include citation for popup window? just realized I might have wrote the wrong website in our Google document. Maybe the github one if we want to cite?
+*/

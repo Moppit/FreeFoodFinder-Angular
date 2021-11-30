@@ -3,6 +3,7 @@ import {DatabaseService} from "../database-service/database.service";
 import {databaseServiceProvider} from "../database-service/database.service.provider";
 import {FoodEvent, GetEventsRes} from "../models/databse-service.models";
 import {MapInfoWindow, MapMarker} from "@angular/google-maps";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-food-map',
@@ -21,7 +22,7 @@ export class FoodMapComponent implements OnInit {
   @ViewChildren(MapInfoWindow) infoWindowsView: QueryList<MapInfoWindow>;
   @ViewChildren(MapMarker) markersView: QueryList<MapMarker>;
 
-  constructor(private databaseService: DatabaseService) {
+  constructor(private databaseService: DatabaseService, private httpClient: HttpClient) {
     this.mapOptions = {
       center: {
         lat: 40.007620, lng: -105.265649
@@ -45,8 +46,8 @@ export class FoodMapComponent implements OnInit {
 
         const options: google.maps.MarkerOptions = {
           position: {
-            lat: event.locationID.latitude,
-            lng: event.locationID.longitude
+            lat: event.locationID.latitude + this.randomlat(),
+            lng: event.locationID.longitude - this.randomlng()
           },
           title: event.foodName,
           clickable: true,
@@ -64,5 +65,17 @@ export class FoodMapComponent implements OnInit {
 
   formatDate(date: string): string {
     return new Date(date).toLocaleString();
+  }
+
+  increaseReportNew(id: number){
+    this.databaseService.increaseReport(id);
+}
+//the below two functions are for spreading out pins. Pins are not randomly chose to be randomized tho.
+  randomlat(): number{
+    return (Math.random() * (0.0003 - 0.00002) + 0.00002);
+  }
+
+  randomlng(): number{
+    return (Math.random() * (0.0003 - 0.00002) + 0.0002);
   }
 }

@@ -61,7 +61,8 @@ export const events: FoodEvent[] =  [{
     "noEgg":false,
     "noSoy":false
   },
-  "locationID": cuLocations[0]
+  "locationID": cuLocations[0],
+  report_count: 0
 },
   {
     "eventID":2,
@@ -80,7 +81,8 @@ export const events: FoodEvent[] =  [{
       "noEgg":true,
       "noSoy":false
     },
-    "locationID": cuLocations[1]
+    "locationID": cuLocations[1],
+    "report_count": 0
   },
   {
     "eventID":3,
@@ -99,7 +101,49 @@ export const events: FoodEvent[] =  [{
       "noEgg":false,
       "noSoy":false
     },
-    "locationID": cuLocations[2]
+    "locationID": cuLocations[2],
+    "report_count": 0
+  },
+  //the following two is to test spreading out pin
+  {
+    "eventID":4,
+    "foodName":"multitest",
+    "availableUntil": Utils.getDateInFuture(2).toISOString(),
+    "foodDescription":"multitest",
+    "roomNumber":"ECCE 188",
+    "restrictionID": {
+      "restrictionID":1,
+      "glutenFree":false,
+      "vegan":true,
+      "vegetarian":true,
+      "noPeanut":false,
+      "lactoseFree":true,
+      "kosher":false,
+      "noEgg":false,
+      "noSoy":false
+    },
+    "locationID": cuLocations[2],
+    "report_count": 0
+  },
+  {
+    "eventID":5,
+    "foodName":"multitest2",
+    "availableUntil": Utils.getDateInFuture(2).toISOString(),
+    "foodDescription":"multitest2",
+    "roomNumber":"ECCE 188",
+    "restrictionID": {
+      "restrictionID":1,
+      "glutenFree":false,
+      "vegan":true,
+      "vegetarian":true,
+      "noPeanut":false,
+      "lactoseFree":true,
+      "kosher":false,
+      "noEgg":false,
+      "noSoy":false
+    },
+    "locationID": cuLocations[2],
+    "report_count": 0
   },
 ]
 
