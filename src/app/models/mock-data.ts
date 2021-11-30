@@ -82,7 +82,7 @@ export const events: FoodEvent[] =  [{
       "noSoy":false
     },
     "locationID": cuLocations[1],
-    "report_count": 0
+    "report_count": 2
   },
   {
     "eventID":3,
@@ -102,7 +102,7 @@ export const events: FoodEvent[] =  [{
       "noSoy":false
     },
     "locationID": cuLocations[2],
-    "report_count": 0
+    "report_count": 1
   },
   //the following two is to test spreading out pin
   {

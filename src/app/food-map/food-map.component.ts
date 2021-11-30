@@ -17,6 +17,7 @@ export class FoodMapComponent implements OnInit {
   public mapOptions: google.maps.MapOptions;
   public markerOptions: google.maps.MarkerOptions[] = [];
   public foodEvents: FoodEvent[];
+  public hasBeenReported: boolean[] = [];
   public infoWindows: google.maps.InfoWindow[] = [];
 
   @ViewChildren(MapInfoWindow) infoWindowsView: QueryList<MapInfoWindow>;
@@ -46,15 +47,15 @@ export class FoodMapComponent implements OnInit {
 
         const options: google.maps.MarkerOptions = {
           position: {
-            lat: event.locationID.latitude + this.randomlat(),
-            lng: event.locationID.longitude - this.randomlng()
+            lat: event.locationID.latitude + this.getRandomOffset(),
+            lng: event.locationID.longitude - this.getRandomOffset()
           },
           title: event.foodName,
           clickable: true,
         };
 
         this.markerOptions.push(options);
-
+        this.hasBeenReported.push(false);
       });
     });
   };
@@ -67,15 +68,15 @@ export class FoodMapComponent implements OnInit {
     return new Date(date).toLocaleString();
   }
 
-  increaseReportNew(id: number){
-    this.databaseService.increaseReport(id);
-}
-//the below two functions are for spreading out pins. Pins are not randomly chose to be randomized tho.
-  randomlat(): number{
-    return (Math.random() * (0.0003 - 0.00002) + 0.00002);
+  reportFoodEvent(id: number){
+    this.databaseService.increaseReport(id).subscribe(_ => {
+      const event = this.foodEvents.filter(f => f.eventID === id)[0]
+      event.report_count++;
+      this.hasBeenReported[this.foodEvents.indexOf(event)] = true;
+    });
   }
 
-  randomlng(): number{
-    return (Math.random() * (0.0003 - 0.00002) + 0.0002);
+  getRandomOffset(): number{
+    return (Math.random() * (0.0003 - 0.00002) + 0.00002);
   }
 }
