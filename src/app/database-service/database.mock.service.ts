@@ -1,6 +1,11 @@
 import {DatabaseService} from "./database.service";
 import {Observable, of} from "rxjs";
-import {CreateFoodEventReq, FilterReq, GetEventsRes, GetLocationsRes} from "../models/databse-service.models";
+import {
+  CreateFoodEventReq,
+  FilterReq,
+  GetEventsRes,
+  GetLocationsRes
+} from "../models/databse-service.models";
 import { getAllEventsResponses, getLocationsResponses} from "../models/mock-data";
 
 export class DatabaseMockService implements DatabaseService {
@@ -18,5 +23,9 @@ export class DatabaseMockService implements DatabaseService {
 
   public getFilteredEvents(params: FilterReq): Observable<GetEventsRes> {
     return of(getAllEventsResponses[0]);
+  }
+
+  public increaseReport(id: number): Observable<any> {
+    return of({});
   }
 }

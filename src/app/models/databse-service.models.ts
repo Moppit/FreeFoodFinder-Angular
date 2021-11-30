@@ -27,6 +27,7 @@ export interface FoodEvent {
   roomNumber: string;
   restrictionID: Restriction;
   locationID: EventLocation;
+  report_count: number,
 }
 
 export interface GetEventsRes {

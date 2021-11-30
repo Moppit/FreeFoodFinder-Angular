@@ -24,6 +24,10 @@ export class DatabaseImplService implements DatabaseService {
     );
   }
 
+  public increaseReport(id: number): Observable<any> {
+    return this.http.put<any>(`${environment.backendHost}/fff/events/${id}/reports`, {})
+  }
+
   public getAllEvents(): Observable<GetEventsRes> {
     return this.http.get<GetEventsRes>(`${environment.backendHost}/fff/events`);
   }

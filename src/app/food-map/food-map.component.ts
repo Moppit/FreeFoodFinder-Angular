@@ -3,6 +3,7 @@ import {DatabaseService} from "../database-service/database.service";
 import {databaseServiceProvider} from "../database-service/database.service.provider";
 import {FoodEvent, GetEventsRes} from "../models/databse-service.models";
 import {MapInfoWindow, MapMarker} from "@angular/google-maps";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-food-map',
@@ -15,6 +16,7 @@ export class FoodMapComponent implements OnInit, OnChanges {
 
   public mapOptions: google.maps.MapOptions;
   public markerOptions: google.maps.MarkerOptions[] = [];
+  public hasBeenReported: boolean[] = [];
   public infoWindows: google.maps.InfoWindow[] = [];
   @ViewChildren(MapInfoWindow) infoWindowsView: QueryList<MapInfoWindow>;
   @ViewChildren(MapMarker) markersView: QueryList<MapMarker>;
@@ -46,15 +48,15 @@ export class FoodMapComponent implements OnInit, OnChanges {
 
         const options: google.maps.MarkerOptions = {
           position: {
-            lat: event.locationID.latitude,
-            lng: event.locationID.longitude
+            lat: event.locationID.latitude + this.getRandomOffset(),
+            lng: event.locationID.longitude - this.getRandomOffset()
           },
           title: event.foodName,
           clickable: true,
         };
 
         this.markerOptions.push(options);
-
+        this.hasBeenReported.push(false);
       });
     });
   };
@@ -63,6 +65,7 @@ export class FoodMapComponent implements OnInit, OnChanges {
     console.log("CHANGES")
     console.log(changes)
     this.markerOptions = [];
+    this.hasBeenReported = [];
     this.foodEvents = changes['foodEvents']?.currentValue;
     if (!this.foodEvents) {
       this.foodEvents = [];
@@ -79,7 +82,7 @@ export class FoodMapComponent implements OnInit, OnChanges {
       };
 
       this.markerOptions.push(options);
-
+      this.hasBeenReported.push(false);
     });
   }
 
@@ -89,5 +92,17 @@ export class FoodMapComponent implements OnInit, OnChanges {
 
   formatDate(date: string): string {
     return new Date(date).toLocaleString();
+  }
+
+  reportFoodEvent(id: number){
+    this.databaseService.increaseReport(id).subscribe(_ => {
+      const event = this.foodEvents.filter(f => f.eventID === id)[0]
+      event.report_count++;
+      this.hasBeenReported[this.foodEvents.indexOf(event)] = true;
+    });
+  }
+
+  getRandomOffset(): number{
+    return (Math.random() * (0.0003 - 0.00002) + 0.00002);
   }
 }
