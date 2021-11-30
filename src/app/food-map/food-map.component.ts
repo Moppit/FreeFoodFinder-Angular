@@ -3,6 +3,7 @@ import {DatabaseService} from "../database-service/database.service";
 import {databaseServiceProvider} from "../database-service/database.service.provider";
 import {FoodEvent, GetEventsRes} from "../models/databse-service.models";
 import {MapInfoWindow, MapMarker} from "@angular/google-maps";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-food-map',
@@ -16,12 +17,13 @@ export class FoodMapComponent implements OnInit {
   public mapOptions: google.maps.MapOptions;
   public markerOptions: google.maps.MarkerOptions[] = [];
   public foodEvents: FoodEvent[];
+  public hasBeenReported: boolean[] = [];
   public infoWindows: google.maps.InfoWindow[] = [];
 
   @ViewChildren(MapInfoWindow) infoWindowsView: QueryList<MapInfoWindow>;
   @ViewChildren(MapMarker) markersView: QueryList<MapMarker>;
 
-  constructor(private databaseService: DatabaseService) {
+  constructor(private databaseService: DatabaseService, private httpClient: HttpClient) {
     this.mapOptions = {
       center: {
         lat: 40.007620, lng: -105.265649
@@ -45,15 +47,15 @@ export class FoodMapComponent implements OnInit {
 
         const options: google.maps.MarkerOptions = {
           position: {
-            lat: event.locationID.latitude,
-            lng: event.locationID.longitude
+            lat: event.locationID.latitude + this.getRandomOffset(),
+            lng: event.locationID.longitude - this.getRandomOffset()
           },
           title: event.foodName,
           clickable: true,
         };
 
         this.markerOptions.push(options);
-
+        this.hasBeenReported.push(false);
       });
     });
   };
@@ -64,5 +66,17 @@ export class FoodMapComponent implements OnInit {
 
   formatDate(date: string): string {
     return new Date(date).toLocaleString();
+  }
+
+  reportFoodEvent(id: number){
+    this.databaseService.increaseReport(id).subscribe(_ => {
+      const event = this.foodEvents.filter(f => f.eventID === id)[0]
+      event.report_count++;
+      this.hasBeenReported[this.foodEvents.indexOf(event)] = true;
+    });
+  }
+
+  getRandomOffset(): number{
+    return (Math.random() * (0.0003 - 0.00002) + 0.00002);
   }
 }
