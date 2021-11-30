@@ -11,7 +11,7 @@
       <b><mat-icon class="marker-icon">fastfood</mat-icon>{{foodEvents[i].foodName}}</b>
       <p>{{foodEvents[i].foodDescription}}</p>
       <p><i>Available Until {{formatDate(foodEvents[i].availableUntil)}}</i></p>
-      <p *ngIf="foodEvents[i].report_count > 0" style="color:red;"><i><small>This food item may be unavailable. It has been reported {{foodEvents[i].report_count}} times.</small></i></p>
+      <p *ngIf="foodEvents[i].reports > 0" style="color:red;"><i><small>This food item may be unavailable. It has been reported {{foodEvents[i].reports}} times.</small></i></p>
       <hr>
       <b><mat-icon class="marker-icon">location_on</mat-icon>Location</b>
       <p>{{foodEvents[i].locationID.locationName}}

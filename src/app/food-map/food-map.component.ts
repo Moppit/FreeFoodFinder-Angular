@@ -97,7 +97,7 @@ export class FoodMapComponent implements OnInit, OnChanges {
   reportFoodEvent(id: number){
     this.databaseService.increaseReport(id).subscribe(_ => {
       const event = this.foodEvents.filter(f => f.eventID === id)[0]
-      event.report_count++;
+      event.reports++;
       this.hasBeenReported[this.foodEvents.indexOf(event)] = true;
     });
   }
