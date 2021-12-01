@@ -23,6 +23,15 @@ export class FoodMapComponent implements OnInit, OnChanges {
 
   @Input() foodEvents: FoodEvent[] = [];
 
+  /**
+   *
+   *  DEPENDENCY INJECTION
+   *
+   *  Here we inject the DatabaseService into the component.
+   *  We assist the Angular framework by giving it a provider
+   *  (seen at the top of the class)
+   *
+   */
   constructor(private databaseService: DatabaseService) {
     this.mapOptions = {
       center: {
@@ -41,6 +50,18 @@ export class FoodMapComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.markerOptions = [];
+    /**
+     *
+     *  OBSERVER
+     *
+     *  We are making use of the observer implementation provided by the
+     *  library RxJs. databaseService.getAllEvents returns a subject that
+     *  the client proceeds to subscribe to. All messages published by
+     *  the subject (in this case just a singular http response body, or
+     *  error) are passed on to all clients. This allows for asynchronous
+     *  behavior and decoupling.
+     *
+     */
     this.databaseService.getAllEvents().subscribe((res: GetEventsRes) => {
       this.foodEvents = res.events;
       console.log(res.events);

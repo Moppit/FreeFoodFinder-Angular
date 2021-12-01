@@ -33,9 +33,6 @@
       <mat-hint>On what day will the food no longer be available?</mat-hint>
     </mat-form-field>
     <div class="mt-10">
-
-      <!--      TODO: Watch out for timezones    -->
-
       <label for="timePicker">At what time will the food no longer be available?</label>
       <input class="mt-10" id="timePicker" [ngxTimepicker]="picker" formControlName="time">
       <ngx-material-timepicker #picker ></ngx-material-timepicker>

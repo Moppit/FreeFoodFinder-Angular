@@ -4,6 +4,17 @@ import {map, Observable, of, switchMap} from "rxjs";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 
+/**
+ *
+ *  FACADE
+ *
+ *  We create a simple facade interface through the use of httpClient
+ *  calls to our remote backend service. The backend service does
+ *  all of the heavy lifting, but of course the client only needs to
+ *  know about the simple api.
+ *
+ */
+
 export class DatabaseImplService implements DatabaseService {
 
   constructor(private http: HttpClient) {
