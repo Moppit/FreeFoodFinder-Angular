@@ -7,6 +7,16 @@ import {
   GetLocationsRes
 } from "../models/databse-service.models";
 
+/**
+ *
+ *  SINGLETON
+ *
+ *  This service is a singleton, with one instance of it being
+ *  created at runtime and injected into its clients. The
+ *  singleton is created and provided by Angular.
+ *
+ */
+
 @Injectable({
   providedIn: 'root'
 })
